@@ -10,3 +10,4 @@ function solveRect(l, b){
 solveRect(2, 3);
 solveRect(20, 32);
 solveRect(21, 33);
+solveRect(21, 33);
