@@ -1,0 +1,19 @@
+{
+  "name": "node_examples",
+  "version": "1.0.0",
+  "description": "Simple node example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RicaJerry/node_example.git"
+  },
+  "author": "Rica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RicaJerry/node_example/issues"
+  },
+  "homepage": "https://github.com/RicaJerry/node_example#readme"
+}
