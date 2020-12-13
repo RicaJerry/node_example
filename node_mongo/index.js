@@ -1,34 +1,35 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const dbOper = require('./operation');
 
 const url = "mongodb+srv://github:githubpassword@mongodb-github.vn7kz.mongodb.net/mongoDB-github?retryWrites=true&w=majority";
 const dbname = "mongoDB-github";
 
 MongoClient.connect(url, (err, client) => {
-    assert.strictEqual(err, null); // Assure that the error is not null 
+    assert.strictEqual(err, null); // Assure that the error is  null 
     console.log('Connected correctly to server');
 
     const db = client.db(dbname);
 
-    const collection = db.collection('dishes');
+    dbOper.insertDocument(db, {name: "New name", description: "test"}, "dishes", (result) => {
+        console.log('Insert Document:\n', result.ops);
 
-    collection.insertOne({"name": "pizza", "description": "test"}, (err, result) => {
-        assert.strictEqual(err, null); // Assure that the error is not null 
+        dbOper.findDocuments(db, "dishes", (docs) => {
+            console.log('Found Documents:\n', docs);
 
-        console.log('After Insert');
-        console.log(result.ops); // Operation carried successfully
+            dbOper.updateDocument(db, {name: "New name"}, {description: "update test desc"}, "dishes", (result) => {
+                console.log('Update Documents:\n', result.result);
 
-        collection.find({}).toArray((err, docs) => {
-            assert.strictEqual(err, null); // Make sure that is error not null 
-            
-            console.log('Found:\n');
-            console.log(docs);
+                dbOper.findDocuments(db, 'dishes', (docs) => {
+                    console.log('Found Documents:\n', docs);
 
-            db.dropCollection('dishes', (err, result) => {
-                assert.strictEqual(err, null);
+                    db.dropCollection('dishes', (result)=> {
+                        console.log('Drop collection', result);
 
-                client.close();
-            });
-        });
+                        client.close();
+                    })
+                })
+            })
+        })
     });
 });
