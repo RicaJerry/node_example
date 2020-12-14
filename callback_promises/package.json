@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "assert": "^1.4.1",
-    "mongodb": "^3.0.10"
+    "express-session": "^1.15.6",
+    "mongodb": "^3.0.10",
+    "session-file-store": "^1.2.0"
   }
 }
