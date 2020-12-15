@@ -51,36 +51,26 @@ app.use (
   })
 );
 
+
+app.use ('/', indexRouter);
+app.use ('/users', usersRouter);
+
 function auth (req, res, next) {
   console.log (req.headers);
   if (!req.session.user) {
-    var authHeader = req.headers.authorization;
-
-    if (!authHeader) {
       var err = new Error ('Not authorized ! XDD Lol !!! ');
 
       res.setHeader ('WWW-Authenticate', 'Basic');
       err.status = 401;
       return next (err);
-    }
-
-    var auth = new Buffer.from (authHeader.split (' ')[1], 'base64')
-      .toString ()
-      .split (':');
-
-      var username = auth[0];
-      var password = auth[1];
-    if (username === 'admin' && password === 'password') {
-      req.session.user = 'admin';
-      next ();
-    }
   } else {
-    if (req.session.user === 'admin') {
+    console.log("LL: auth -> req.session.user", req.session.user)
+
+    if (req.session.user === 'authenticated') {
       next ();
     } else {
       var err = new Error (' You are not authorized !!! huhu ');
-
-      err.status = 401;
+      err.status = 403;
       return next (err);
     }
   }
@@ -88,8 +78,6 @@ function auth (req, res, next) {
 
 app.use (auth);
 
-app.use ('/', indexRouter);
-app.use ('/users', usersRouter);
 app.use ('/dishes', dishRouter);
 
 // catch 404 and forward to error handler
